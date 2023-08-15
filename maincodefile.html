@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Haliacmon</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <script>
+  	const socket = io('YOUR_NGROK_URL');
+
+  	// Listen for previous messages sent by the server on connection
+  	socket.on('previousMessages', (messages) => {
+    	// Display the previous messages on the UI
+    	// You can use this to populate the existing tweets in your timeline
+  	});
+
+  	// Handle new messages sent by the server
+  	socket.on('message', (message) => {
+    	// Update the UI with the new message (e.g., add it to the timeline)
+  	});
+
+  	// Function to send a new message to the server
+  	function sendMessage(message) {
+    	socket.emit('message', message);
+  	}
+	
+	// Example: When a new tweet is posted
+	const newTweet = 'This is a new tweet!';
+	sendMessage(newTweet);
+
+    </script>
+
+    <!-- sidebar starts -->
+    <div class="sidebar">
+      <a href="#" class="twitter-link">
+        <i class="fab fa-twitter"></i>
+      </a>
+    
+      <script>
+        const twitterLink = document.querySelector(".twitter-link");
+    
+        twitterLink.addEventListener("click", function() {
+          redirectToLocalFile("index.html");
+        });
+    
+        function redirectToLocalFile(filePath) {
+          window.location.href = filePath;
+        }
+      </script>
+      <div class="sidebarOption active">
+        <span class="material-icons"> home </span>
+        <h4>Home</h4>
+      </div>
+      <div class="sidebarOption">
+        <span class="material-icons"> search </span>
+        <h4>Explore</h4>
+      </div>
+      <div class="sidebarOption">
+        <span class="material-icons"> notifications_none </span>
+        <h4>Notifications</h4>
+      </div>
+      <div class="sidebarOption">
+        <span class="material-icons"> mail_outline </span>
+        <h4>Messages</h4>
+      </div>
+      <div class="sidebarOption">
+        <span class="material-icons"> bookmark_border </span>
+        <h4>Bookmarks</h4>
+      </div>
+      <div class="sidebarOption" onclick="clearAllPosts()">
+        <span class="material-icons">list_alt</span>
+        <h4>CLEAR ALL</h4>
+      </div>
+      <script>
+        // Function to clear all posts from localStorage
+        function clearAllPosts() {
+          localStorage.removeItem("posts");
+          // Remove all post elements from the post container
+          const postContainer = document.getElementById("postContainer");
+          postContainer.innerHTML = "";
+        }
+      </script>
+            
+      <div class="sidebarOption">
+        <span class="material-icons"> perm_identity </span>
+        <h4>Profile</h4>
+      </div>
+      <div class="sidebarOption">
+        <span class="material-icons"> more_horiz </span>
+        <h4>More</h4>
+      </div>
+      <button class="sidebar__tweet">Tweet</button>
+    </div>
+    <!-- sidebar ends -->
+    <!-- feed starts -->
+    <div class="feed">
+      <div class="feed__header">
+        <h6>Home</h6>
+      </div>
+      <!-- tweetbox starts -->
+      <div class="tweetBox">
+  		<form id="tweetForm">
+    		<div class="tweetbox__input">
+      			<img src="https://www.apple.com/v/macbook-air-13-and-15-m2/b/images/overview/hero/hero_static__6sbma6bp2tu6_large.jpg" alt="User profile picture">
+      			<input type="text" id="tweetInput" placeholder="What's happening?" />
+    		</div>
+    		<button class="tweetBox__tweetButton">Holler</button>
+  		</form>
+	 </div>
+
+      <!-- tweetbox ends -->
+      <!-- Container for posts -->
+  <div id="postContainer"></div>
+  
+  <script>
+    // Function to handle the form submission
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+  
+      // Get the entered tweet content
+      const tweetContent = document.getElementById("tweetInput").value;
+  
+      // Get the URL of the profile picture
+      const profilePictureURL = "https://drive.google.com/uc?export=view&id=1iPsJk3RXl3SJaEiaXPaPOSclewEoNhdg";
+
+      // Create a new post element
+      const postElement = document.createElement("div");
+      postElement.className = "post";
+      postElement.innerHTML = `
+        <div class="post__avatar">
+          <img src="${profilePictureURL}" alt="User profile picture">
+        </div>
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                USER NAME
+                <span class="post__headerSpecial">
+                  <span class="material-icons post__badge">verified</span>@USER NAME
+                </span>
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>${tweetContent}</p>
+            </div>
+          </div>
+          <div class="post__footer">
+            <span class="material-icons">repeat</span>
+            <span class="material-icons">favorite_border</span>
+            <span class="material-icons">publish</span>
+          </div>
+        </div>
+      `;
+  
+      // Get the post container
+      const postContainer = document.getElementById("postContainer");
+  
+      // Insert the new post as the first child of the post container
+      postContainer.insertBefore(postElement, postContainer.firstChild);
+  
+      // Save the post in localStorage
+      const newPost = { profilePictureURL, tweetContent, timestamp: Date.now() };
+      const savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+      savedPosts.unshift(newPost);
+      localStorage.setItem("posts", JSON.stringify(savedPosts));
+  
+      // Clear the tweet input field
+      document.getElementById("tweetInput").value = "";
+    }
+  
+    // Function to display posts from localStorage
+    function displayPosts() {
+      const postContainer = document.getElementById("postContainer");
+      const savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+  
+      // Clear the post container
+      postContainer.innerHTML = "";
+  
+      // Loop through the saved posts and create HTML elements for each post
+      for (const post of savedPosts) {
+        const postElement = document.createElement("div");
+        postElement.className = "post";
+        postElement.innerHTML = `
+          <div class="post__avatar">
+            <img src="${post.profilePictureURL}" alt="User profile picture">
+          </div>
+          <div class="post__body">
+            <div class="post__header">
+              <div class="post__headerText">
+                <h3>
+                  USER NAME
+                  <span class="post__headerSpecial">
+                    <span class="material-icons post__badge">verified</span>@USER NAME
+                  </span>
+                </h3>
+              </div>
+              <div class="post__headerDescription">
+                <p>${post.tweetContent}</p>
+              </div>
+            </div>
+            <div class="post__footer">
+              <span class="material-icons">repeat</span>
+              <span class="material-icons">favorite_border</span>
+              <span class="material-icons">publish</span>
+            </div>
+          </div>
+        `;
+        postContainer.appendChild(postElement);
+      }
+    }
+  
+    // Attach the form submission handler to the "Holler" button
+    const tweetForm = document.getElementById("tweetForm");
+    tweetForm.addEventListener("submit", handleFormSubmit);
+  
+    // Display the posts when the page loads
+    displayPosts();
+  </script>
+<script>
+  const socket = io('https://01e2-2603-8000-9e3e-3d14-5140-ace0-18bd-45ec.ngrok-free.app');
+
+  // Listen for previous messages sent by the server on connection
+  socket.on('previousMessages', (messages) => {
+    const chatMessages = document.getElementById('chatMessages');
+    for (const message of messages) {
+      appendMessageToChat(chatMessages, message.tweetContent);
+    }
+  });
+
+  // Handle new messages (tweets) sent by the server
+  socket.on('message', (message) => {
+    const chatMessages = document.getElementById('chatMessages');
+    appendMessageToChat(chatMessages, message);
+  });
+
+  // Function to send a new message (tweet) to the server
+  function sendMessage(message) {
+    socket.emit('message', { tweetContent: message });
+  }
+
+  // Function to append a message (tweet) to the chatbox
+  function appendMessageToChat(chatMessages, message) {
+    const messageElement = document.createElement('div');
+    messageElement.className = 'post'; // Use 'post' class for styling
+    messageElement.innerHTML = `
+      <div class="post__avatar">
+        <img src="https://www.apple.com/v/macbook-air-13-and-15-m2/b/images/overview/hero/hero_static__6sbma6bp2tu6_large.jpg" alt="User profile picture">
+      </div>
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              USER NAME
+              <span class="post__headerSpecial">
+                <span class="material-icons post__badge">verified</span>@USER NAME
+              </span>
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>${message}</p>
+          </div>
+        </div>
+        <div class="post__footer">
+          <span class="material-icons">repeat</span>
+          <span class="material-icons">favorite_border</span>
+          <span class="material-icons">publish</span>
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(messageElement);
+  }
+
+  // Chat form submission handler
+  const tweetForm = document.getElementById('tweetForm');
+  tweetForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const tweetInput = document.getElementById('tweetInput');
+    const message = tweetInput.value;
+    sendMessage(message);
+    tweetInput.value = ''; // Clear the input after sending
+  });
+</script>
+  
+  
+      <!-- post starts -->
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+            alt=""
+          />
+        </div>
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                USER NAME
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@USER NAME</span
+                >
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>just setting up my Haliacmon</p>
+            </div>
+          </div>
+          
+          <div class="post__footer">
+            <span class="material-icons"> repeat </span>
+            <span class="material-icons"> favorite_border </span>
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div>
+      <!-- post ends -->
+      <!-- post starts -->
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+            alt=""
+          />
+        </div>
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                USER NAME
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@USER NAME</span
+                >
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>Mega Rayquaza makes its global Pokémon GO debut!</p>
+            </div>
+          </div>
+          <img
+            src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+            alt=""
+          />
+          <div class="post__footer">
+            <span class="material-icons"> repeat </span>
+            <span class="material-icons"> favorite_border </span>
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div>
+      <!-- post ends -->
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+            alt=""
+          />
+        </div>
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              USER NAME
+              <span class="post__headerSpecial"
+                ><span class="material-icons post__badge"> verified </span>@USER NAME</span
+              >
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>Exploring breathtaking views during my hiking adventure this weekend. Nature never disappoints!
+            #outdooradventures</p>
+          </div>
+        </div>
+        <img
+          src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+          alt=""
+        />
+          <div class="post__footer">
+            <span class="material-icons"> repeat </span>
+            <span class="material-icons"> favorite_border </span>
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div>
+      <!-- feed ends -->
+      <!-- post ends -->
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+            alt=""
+          />
+        </div>
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              USER NAME
+              <span class="post__headerSpecial"
+                ><span class="material-icons post__badge"> verified </span>@USER NAME</span
+              >
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>POST TEXT HERE</p>
+          </div>
+        </div>
+        <img
+          src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg"
+          alt=""
+        />
+        <div class="post__footer">
+          <span class="material-icons"> repeat </span>
+          <span class="material-icons"> favorite_border </span>
+          <span class="material-icons"> publish </span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- feed ends -->
+    <!-- widgets starts -->
+    <div class="widgets">
+      <div class="widgets__input">
+        <span class="material-icons widgets__searchIcon"> search </span>
+        <input type="text" placeholder="Search Twitter Pro" />
+      </div>
+      <div class="widgets__widgetContainer">
+        <h2>Trends for you</h2>
+         <blockquote class="twitter-tweet">
+            <h4>#applenews</h4>
+            <p lang="en" dir="ltr">
+              iOS 17.
+              <a href="https://www.cnet.com/tech/services-and-software/ios-17-public-beta-is-out-im-excited-about-these-new-iphone-features/"> @CNET</a>
+            <h4>#PokemonGo</h4>
+            <p lang="en" dir="ltr">
+              Pokemon Go's new feature
+                <a href="https://gamerant.com/pokemon-go-pokestop-showcases-guide-rewards/"> @GAMERANT</a>
+          </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+    <!-- widgets ends -->
+  </body>
+</html>
