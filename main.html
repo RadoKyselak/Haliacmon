@@ -3,27 +3,31 @@
 
 <head>
   
-  <style>
-  /* Your existing CSS styles */
+<style>
+      /* Your existing CSS styles */
+      /* Media query for screens with a maximum width of 750px */
+      @media (max-width: 750px) {
 
-    /* Media query for screens with a maximum width of 750px */
-    @media (max-width: 750px) {
-      /* Hide the sidebar and widgets */
-      .sidebar {
-        display: none;
-      }
+        /* Hide the sidebar and widgets */
+        .sidebar {
+          display: none;
+        }
 
-      .widgets {
-        display: none;
-      }
+        .widgets {
+          display: none;
+        }
 
-      /* Adjust the layout for smaller screens */
-      .feed {
-        width: 100%; /* Take up full width */
-        border-right: none; /* Remove the border on the right side */
+        /* Adjust the layout for smaller screens */
+        .feed {
+          width: 100%;
+          /* Take up full width */
+          border: none;
+          /* Remove the border */
+          border-right: 1px solid var(--twitter-background);
+          /* Add a border to the left side to separate posts */
+        }
       }
-    }
-  </style>
+    </style>
 
   <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
