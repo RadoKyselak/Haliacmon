@@ -44,8 +44,8 @@ body {
   display: flex;
   height: 100vh;
   max-width: 5000px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0px;
+  margin-right: 0px;
   padding: 0 10px;
 }
 /*could be deleated*/
@@ -65,7 +65,7 @@ body {
 .feed {
   flex: 0.5;
   border-right: 1px solid var(--twitter-background);
-  overflow-y: scroll;
+  overflow-y: visible;
 }
 .feed__header {
   position: static;
