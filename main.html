@@ -2,28 +2,26 @@
 <html lang="en">
 
 <head>
+  
     <style>
-      /* Your existing CSS styles */
-      /* Media query for screens with a maximum width of 768px */
-      @media (max-width: 1500px) {
+    /* Your existing CSS styles */
 
-        /* Adjust the layout for smaller screens */
-        .sidebar {
-          display: none;
-          /* Additional styling for sidebar when screen is small */
-        }
-
-        .feed {
-          width: 50%;
-          /* Additional styling for feed when screen is small */
-        }
-
-        .widgets {
-          display: none;
-          /* Hide widgets on small screens */
-        }
+    /* Media query for screens with a maximum width of 1500px */
+    @media (max-width: 1500px) {
+      /* Adjust the layout for smaller screens */
+      .sidebar {
+        display: none; /* Hide the sidebar */
       }
-    </style>
+
+      .feed {
+        width: 100%; /* Take up full width */
+      }
+
+      .widgets {
+        display: none; /* Hide widgets on small screens */
+      }
+    }
+  </style>
 
   <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
@@ -36,6 +34,7 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
 </head>
 
 <body>
