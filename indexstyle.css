@@ -36,8 +36,7 @@ body {
   align-items: flex-start;
   justify-content: space-evenly;
   padding: 2rem;
-  margin: auto;
-  width: 60%;
+  margin: auto
 }
 
 .big-bird {
