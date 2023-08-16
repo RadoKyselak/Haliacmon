@@ -43,7 +43,7 @@ body {
 body {
   display: flex;
   height: 100vh;
-  max-width: 1300px;
+  max-width: 5000px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 10px;
@@ -68,7 +68,7 @@ body {
   overflow-y: scroll;
 }
 .feed__header {
-  position: sticky;
+  position: static;
   top: 0;
   background-color: white;
   z-index: 100;
