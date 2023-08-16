@@ -3,22 +3,24 @@
 
 <head>
   
-    <style>
-    /* Your existing CSS styles */
+  <style>
+  /* Your existing CSS styles */
 
-    /* Media query for screens with a maximum width of 1500px */
+    /* Media query for screens with a maximum width of 750px */
     @media (max-width: 750px) {
-      /* Adjust the layout for smaller screens */
+      /* Hide the sidebar and widgets */
       .sidebar {
-        display: none; /* Hide the sidebar */
-      }
-
-      .feed {
-        width: 100%; /* Take up full width */
+        display: none;
       }
 
       .widgets {
-        display: none; /* Hide widgets on small screens */
+        display: none;
+      }
+
+      /* Adjust the layout for smaller screens */
+      .feed {
+        width: 100%; /* Take up full width */
+        border-right: none; /* Remove the border on the right side */
       }
     }
   </style>
