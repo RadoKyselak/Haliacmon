@@ -65,7 +65,7 @@ body {
 .feed {
   flex: 0.5;
   border-right: 1px solid var(--twitter-background);
-  overflow-y: visible;
+  overflow-y: border-box;
 }
 .feed__header {
   position: static;
