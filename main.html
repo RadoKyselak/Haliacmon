@@ -4,11 +4,9 @@
 <head>
   
 <style>
-      /* Your existing CSS styles */
-      /* Media query for screens with a maximum width of 750px */
+
       @media (max-width: 750px) {
 
-        /* Hide the sidebar and widgets */
         .sidebar {
           display: none;
         }
@@ -17,14 +15,13 @@
           display: none;
         }
 
-        /* Adjust the layout for smaller screens */
         .feed {
           width: 100%;
-          /* Take up full width */
+
           border: none;
-          /* Remove the border */
+
           border-right: 1px solid var(--twitter-background);
-          /* Add a border to the left side to separate posts */
+ 
         }
       }
     </style>
@@ -46,25 +43,22 @@
 <body>
   <script>
     const socket = io('YOUR_NGROK_URL');
-    // Listen for previous messages sent by the server on connection
     socket.on('previousMessages', (messages) => {
-      // Display the previous messages on the UI
-      // You can use this to populate the existing tweets in your timeline
+
     });
-    // Handle new messages sent by the server
+
     socket.on('message', (message) => {
-      // Update the UI with the new message (e.g., add it to the timeline)
     });
-    // Function to send a new message to the server
+
     function sendMessage(message) {
       socket.emit('message', message);
     }
-    // Example: When a new tweet is posted
+
     const newTweet = 'This is a new tweet!';
     sendMessage(newTweet);
   </script>
 
-  <!-- sidebar starts -->
+
   <div class="sidebar">
     <a href="#" class="twitter-link">
       <i class="fab fa-twitter"></i>
@@ -105,10 +99,10 @@
       <h4>CLEAR ALL</h4>
     </div>
     <script>
-      // Function to clear all posts from localStorage
+
       function clearAllPosts() {
         localStorage.removeItem("posts");
-        // Remove all post elements from the post container
+
         const postContainer = document.getElementById("postContainer");
         postContainer.innerHTML = "";
       }
@@ -124,13 +118,12 @@
     </div>
     <button class="sidebar__tweet">Tweet</button>
   </div>
-  <!-- sidebar ends -->
-  <!-- feed starts -->
+
   <div class="feed">
     <div class="feed__header">
       <h6>Home</h6>
     </div>
-    <!-- tweetbox starts -->
+
     <div class="tweetBox">
       <form id="tweetForm">
         <div class="tweetbox__input">
@@ -141,19 +134,17 @@
       </form>
     </div>
 
-    <!-- tweetbox ends -->
-    <!-- Container for posts -->
+
     <div id="postContainer"></div>
 
     <script>
-      // Function to handle the form submission
+ 
       function handleFormSubmit(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-        // Get the entered tweet content
+        event.preventDefault(); 
         const tweetContent = document.getElementById("tweetInput").value;
-        // Get the URL of the profile picture
+   
         const profilePictureURL = "https://www.apple.com/v/macbook-air-13-and-15-m2/b/images/overview/hero/hero_static__6sbma6bp2tu6_large.jpg";
-        // Create a new post element
+   
         const postElement = document.createElement("div");
         postElement.className = "post";
         postElement.innerHTML = `
@@ -181,11 +172,11 @@
           </div>
         </div>
       `;
-        // Get the post container
+     
         const postContainer = document.getElementById("postContainer");
-        // Insert the new post as the first child of the post container
+        
         postContainer.insertBefore(postElement, postContainer.firstChild);
-        // Save the post in localStorage
+      
         const newPost = {
           profilePictureURL,
           tweetContent,
@@ -194,16 +185,16 @@
         const savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
         savedPosts.unshift(newPost);
         localStorage.setItem("posts", JSON.stringify(savedPosts));
-        // Clear the tweet input field
+        
         document.getElementById("tweetInput").value = "";
       }
-      // Function to display posts from localStorage
+      
       function displayPosts() {
         const postContainer = document.getElementById("postContainer");
         const savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-        // Clear the post container
+   
         postContainer.innerHTML = "";
-        // Loop through the saved posts and create HTML elements for each post
+     
         for (const post of savedPosts) {
           const postElement = document.createElement("div");
           postElement.className = "post";
@@ -235,36 +226,36 @@
           postContainer.appendChild(postElement);
         }
       }
-      // Attach the form submission handler to the "Holler" button
+ 
       const tweetForm = document.getElementById("tweetForm");
       tweetForm.addEventListener("submit", handleFormSubmit);
-      // Display the posts when the page loads
+   
       displayPosts();
     </script>
     <script>
       const socket = io('https://01e2-2603-8000-9e3e-3d14-5140-ace0-18bd-45ec.ngrok-free.app');
-      // Listen for previous messages sent by the server on connection
+
       socket.on('previousMessages', (messages) => {
         const chatMessages = document.getElementById('chatMessages');
         for (const message of messages) {
           appendMessageToChat(chatMessages, message.tweetContent);
         }
       });
-      // Handle new messages (tweets) sent by the server
+      
       socket.on('message', (message) => {
         const chatMessages = document.getElementById('chatMessages');
         appendMessageToChat(chatMessages, message);
       });
-      // Function to send a new message (tweet) to the server
+     
       function sendMessage(message) {
         socket.emit('message', {
           tweetContent: message
         });
       }
-      // Function to append a message (tweet) to the chatbox
+   
       function appendMessageToChat(chatMessages, message) {
         const messageElement = document.createElement('div');
-        messageElement.className = 'post'; // Use 'post' class for styling
+        messageElement.className = 'post'; 
         messageElement.innerHTML = `
       <div class="post__avatar">
         <img src="https://www.apple.com/v/macbook-air-13-and-15-m2/b/images/overview/hero/hero_static__6sbma6bp2tu6_large.jpg" alt="User profile picture">
@@ -292,18 +283,18 @@
     `;
         chatMessages.appendChild(messageElement);
       }
-      // Chat form submission handler
+
       const tweetForm = document.getElementById('tweetForm');
       tweetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const tweetInput = document.getElementById('tweetInput');
         const message = tweetInput.value;
         sendMessage(message);
-        tweetInput.value = ''; // Clear the input after sending
+        tweetInput.value = ''; 
       });
     </script>
 
-    <!-- post starts -->
+
     <div class="post">
       <div class="post__avatar">
         <img src="https://www.apple.com/favicon.ico" />
@@ -328,8 +319,7 @@
         </div>
       </div>
     </div>
-    <!-- post ends -->
-    <!-- post starts -->
+
     <div class="post">
       <div class="post__avatar">
         <img src="https://www.google.com/favicon.ico" alt="User profile picture">
@@ -354,7 +344,7 @@
         </div>
       </div>
     </div>
-    <!-- post ends -->
+
     <div class="post">
       <div class="post__avatar">
         <img src="https://www.apple.com/v/home/bd/images/promos/ipad-pro/promo_ipadpro_refresh__evi9utuixwuq_large.jpg" alt="" />
@@ -380,8 +370,7 @@
         </div>
       </div>
     </div>
-    <!-- feed ends -->
-    <!-- post ends -->
+
     <div class="post">
       <div class="post__avatar">
         <img src="https://seeklogo.com/images/P/premier-league-new-logo-D22A0CE87E-seeklogo.com.png" alt="" />
@@ -407,8 +396,7 @@
       </div>
     </div>
   </div>
-  <!-- feed ends -->
-  <!-- widgets starts -->
+ 
   <div class="widgets">
     <div class="widgets__input">
       <span class="material-icons widgets__searchIcon"> search </span>
@@ -429,7 +417,7 @@
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
   </div>
-  <!-- widgets ends -->
+
 </body>
 
 </html>
